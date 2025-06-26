@@ -1,4 +1,3 @@
-console.log("[VITE CONFIG] vite.config.ts is being loaded...");
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
