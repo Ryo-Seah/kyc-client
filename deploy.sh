@@ -43,6 +43,7 @@ gcloud run deploy $SERVICE_NAME \
   --cpu 1 \
   --min-instances 0 \
   --max-instances 10 \
+  --set-env-vars VITE_API_BASE_URL="$VITE_API_BASE_URL" \
   --port 8080
 
 echo "✅ Deployment complete!"

@@ -12,7 +12,7 @@ function App() {
   const [isError, setIsError] = useState(false);
 
   // Get API base URL from environment variables
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as 'individual' | 'organisation');
