@@ -43,7 +43,6 @@ gcloud run deploy $SERVICE_NAME \
   --cpu 1 \
   --min-instances 0 \
   --max-instances 10 \
-  --set-env-vars VITE_API_BASE_URL="https://kyc-dossier-api-977641841448.us-central1.run.app" \
   --port 8080
 
 echo "✅ Deployment complete!"
