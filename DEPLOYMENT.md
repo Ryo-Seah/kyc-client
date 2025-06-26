@@ -4,34 +4,67 @@
 
 1. **Google Cloud SDK**: Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 2. **Docker**: Install [Docker](https://docs.docker.com/get-docker/)
-3. **Google Cloud Project**: Create a project in [Google Cloud Console](https://console.cloud.google.com/)
+3. **Google Cloud Project**: Project ID: `kyc-dvo`
 
-## Setup Steps
+## Quick Setup
 
-### 1. Configure Google Cloud
+Run the automated setup script:
+
+```bash
+./setup-gcloud.sh
+```
+
+This will:
+- Verify Google Cloud CLI installation
+- Authenticate your account
+- Set project to `kyc-dvo`
+- Enable required APIs
+- Configure Docker authentication
+
+## Manual Setup Steps
+
+### 1. Install Google Cloud SDK (if not installed)
+
+**macOS:**
+```bash
+brew install google-cloud-sdk
+```
+
+**Linux/Windows:** Follow instructions at https://cloud.google.com/sdk/docs/install
+
+### 2. Configure Google Cloud
 
 ```bash
 # Login to Google Cloud
 gcloud auth login
 
-# Set your project ID (replace with your actual project ID)
-gcloud config set project YOUR_PROJECT_ID
+# Set your project ID
+gcloud config set project kyc-dvo
+
+# Verify project is set correctly
+gcloud config get-value project
 
 # Enable required APIs
 gcloud services enable cloudbuild.googleapis.com
 gcloud services enable run.googleapis.com
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable artifactregistry.googleapis.com
 
 # Configure Docker to use gcloud as credential helper
 gcloud auth configure-docker
 ```
 
-### 2. Update Configuration
-
-Edit `deploy.sh` and replace `YOUR_PROJECT_ID` with your actual Google Cloud project ID:
+### 3. Verify Setup
 
 ```bash
-PROJECT_ID="your-actual-project-id"
+# Check your configuration
+gcloud config list
+
+# Check active account
+gcloud auth list
+
+# Test access to your project
+gcloud projects describe kyc-dvo
 ```
 
 ### 3. Deploy Options
@@ -84,14 +117,14 @@ cd /path/to/kyc_client
 ### Manual Steps
 ```bash
 # Build Docker image
-docker build -t gcr.io/YOUR_PROJECT_ID/kyc-client .
+docker build -t gcr.io/kyc-dvo/kyc-client .
 
 # Push to Google Container Registry
-docker push gcr.io/YOUR_PROJECT_ID/kyc-client
+docker push gcr.io/kyc-dvo/kyc-client
 
 # Deploy to Cloud Run
 gcloud run deploy kyc-client \
-  --image gcr.io/YOUR_PROJECT_ID/kyc-client \
+  --image gcr.io/kyc-dvo/kyc-client \
   --platform managed \
   --region us-central1 \
   --allow-unauthenticated \

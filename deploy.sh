@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-PROJECT_ID="your-project-id"  # Replace with your Google Cloud Project ID
+PROJECT_ID="kyc-dvo"  # Your Google Cloud Project ID
 SERVICE_NAME="kyc-client"
 REGION="us-central1"
 IMAGE_NAME="gcr.io/$PROJECT_ID/$SERVICE_NAME"
