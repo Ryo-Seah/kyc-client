@@ -21,6 +21,12 @@ gcloud auth login
 echo "📁 Setting project to kyc-dvo..."
 gcloud config set project kyc-dvo
 
+# Set the region for Cloud Run
+echo "🌏 Setting region to asia-southeast1..."
+gcloud config set run/region asia-southeast1
+gcloud config set compute/region asia-southeast1
+gcloud config set compute/zone asia-southeast1-a
+
 # Verify project is set
 echo "🔍 Current project configuration:"
 gcloud config get-value project

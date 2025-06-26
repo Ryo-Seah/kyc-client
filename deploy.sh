@@ -3,7 +3,7 @@
 # Configuration
 PROJECT_ID="kyc-dvo"  # Your Google Cloud Project ID
 SERVICE_NAME="kyc-client"
-REGION="us-central1"
+REGION="asia-southeast1"
 IMAGE_NAME="gcr.io/$PROJECT_ID/$SERVICE_NAME"
 
 echo "🚀 Deploying KYC Client to Google Cloud Run"
