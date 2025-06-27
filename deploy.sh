@@ -5,6 +5,9 @@ PROJECT_ID="kyc-dvo"
 SERVICE_NAME="kyc-client"
 REGION="asia-southeast1"
 
+# Backend API URL - Update this to point to your backend service
+BACKEND_API_URL="https://example.com"
+
 # Check if gcloud is configured
 if ! gcloud config get-value project &>/dev/null; then
     echo "❌ gcloud is not configured. Please run the following commands first:"
@@ -43,7 +46,7 @@ gcloud run deploy $SERVICE_NAME \
   --cpu 1 \
   --min-instances 0 \
   --max-instances 10 \
-  --set-env-vars VITE_API_BASE_URL="$VITE_API_BASE_URL" \
+  --set-env-vars VITE_API_BASE_URL="$BACKEND_API_URL" \
   --port 8080
 
 echo "✅ Deployment complete!"

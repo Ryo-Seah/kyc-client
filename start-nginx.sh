@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set default backend URL if not provided
-export BACKEND_URL=${BACKEND_URL:-"https://kyc-dossier-api-977641841448.us-central1.run.app"}
+export BACKEND_URL=${BACKEND_URL:-"placeholder.com"}
 
 echo "🔗 Configuring nginx with backend URL: $BACKEND_URL"
 

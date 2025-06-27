@@ -16,7 +16,7 @@ The application uses environment variables to configure the API endpoint:
 
 ```env
 # Production
-VITE_API_BASE_URL="https://kyc-dossier-api-977641841448.us-central1.run.app"
+VITE_API_BASE_URL="example.com"
 
 # Local Development  
 VITE_API_BASE_URL="http://localhost:5050"
