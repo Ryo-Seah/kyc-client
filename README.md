@@ -42,7 +42,17 @@ VITE_API_BASE_URL="http://localhost:5050"
    ```bash
    npm run build
    ```
+5. **Deployment to GCP from scratch**
+Set up gcloud cli authentication and setup github service account
 
+  ```bash
+   #only need this if not on this repo, or want to migrate to different GCP account
+  ./scripts/setup-gcloud.sh
+  ./scripts/setup-github-sa.sh
+  ```
+  copy the github-actions-key.json key into github repository secrets under GCP_SA_KEY
+  Add BACKEND_URL to github repo secrets and set value to hosted backed url
+  
 ## Backend API
 
 The frontend expects a POST endpoint at `/submit` that:
@@ -64,6 +74,8 @@ curl -X POST $VITE_API_BASE_URL/submit \
 - **Vite** - Build tool and dev server
 - **Material-UI** - UI components
 - **Axios** - HTTP client
+
+
 
 ---
 
