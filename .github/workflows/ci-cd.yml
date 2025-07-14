@@ -39,14 +39,17 @@ jobs:
 
       - name: set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
+    
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
         
-
       - name: Build Docker image
         run: |
           docker build \
             --build-arg VITE_API_BASE_URL="${{ secrets.BACKEND_URL }}" \
             -t $REGISTRY/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
             -t $REGISTRY/$PROJECT_ID/$SERVICE_NAME:latest \
+            .
     
       - name: Push Docker image
         run: |
