@@ -14,12 +14,6 @@ function App() {
   // Get API base URL from environment variables
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
-    // Add debug logging
-  console.log("🔧 Environment Variables Debug:");
-  console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
-  console.log("Final API_BASE_URL:", API_BASE_URL);
-  console.log("All Vite env vars:", import.meta.env);
-
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as 'individual' | 'organisation');
   };
@@ -42,7 +36,6 @@ function App() {
     setMsg('');
 
     console.log("[DEBUG] Submitting name:", name, "category:", category);
-    console.log("[DEBUG] API Base URL:", API_BASE_URL);
     try {
       const res = await axios.post(`${API_BASE_URL}/submit`, 
         { name, category }, 

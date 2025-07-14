@@ -62,13 +62,18 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
     --role="roles/iam.serviceAccountUser"
 
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
-    --role="roles/containerregistry.ServiceAgent"
+# gcloud projects add-iam-policy-binding $PROJECT_ID \
+#     --member="serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+#     --role="roles/containerregistry.ServiceAgent"
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
     --role="roles/artifactregistry.writer"
+
+echo "🔑 Granting Artifact Registry Admin permissions..."
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="serviceAccount:$SERVICE_ACCOUNT_EMAIL" \
+    --role="roles/artifactregistry.admin"
 
 # Create and download key
 echo "🔑 Creating service account key..."
