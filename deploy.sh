@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deploy to Google Cloud Run
-PROJECT_ID="kyc-dvo"
+PROJECT_ID="kyc-dvo-465409"
 SERVICE_NAME="kyc-client"
 REGION="asia-southeast1"
 
