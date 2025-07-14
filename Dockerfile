@@ -13,6 +13,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+#debug
+RUN echo "Building with VITE_API_BASE_URL: $VITE_API_BASE_URL"
+
 # Set production environment
 ENV NODE_ENV=production
 

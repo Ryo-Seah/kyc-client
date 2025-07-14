@@ -12,7 +12,13 @@ function App() {
   const [isError, setIsError] = useState(false);
 
   // Get API base URL from environment variables
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+    // Add debug logging
+  console.log("🔧 Environment Variables Debug:");
+  console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
+  console.log("Final API_BASE_URL:", API_BASE_URL);
+  console.log("All Vite env vars:", import.meta.env);
 
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as 'individual' | 'organisation');
