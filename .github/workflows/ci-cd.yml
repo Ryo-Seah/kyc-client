@@ -9,6 +9,7 @@ env:
   SERVICE_NAME: kyc-client
   REGION: asia-southeast1
   REGISTRY: gcr.io
+  REPOSITORY: kyc-client-repo
 
 jobs:
   build:
@@ -39,27 +40,34 @@ jobs:
 
       - name: set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker $REGISTRY
     
-      - name: Configure Docker for GCR
-        run: gcloud auth configure-docker
+      - name: Create Artifact Registry repository (if not exists)
+        run: |
+          gcloud artifacts repositories create $REPOSITORY \
+            --repository-format=docker \
+            --location=$REGION \
+            --description="KYC Client Docker repository" || true
         
       - name: Build Docker image
         run: |
           docker build \
             --build-arg VITE_API_BASE_URL="${{ secrets.BACKEND_URL }}" \
-            -t $REGISTRY/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
-            -t $REGISTRY/$PROJECT_ID/$SERVICE_NAME:latest \
+            -t $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:$GITHUB_SHA \
+            -t $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:latest \
             .
     
       - name: Push Docker image
         run: |
-          docker push $REGISTRY/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
-          docker push $REGISTRY/$PROJECT_ID/$SERVICE_NAME:latest
+          docker push $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:$GITHUB_SHA
+          docker push $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
-            --image $REGISTRY/$PROJECT_ID/$SERVICE_NAME:latest \
+            --image $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:latest \
             --platform managed \
             --region $REGION \
             --allow-unauthenticated \
