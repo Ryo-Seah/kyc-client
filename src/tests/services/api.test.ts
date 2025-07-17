@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import { submitDossierRequest, type SubmitData } from '../../services/api'
+import { submitDossierRequest, type DossierSubmitData } from '../../services/api'
 
 // Mock axios
 vi.mock('axios', () => ({
@@ -23,7 +23,7 @@ describe('api service', () => {
     const mockBlob = new Blob(['mock file content'], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
 
     it('makes POST request to correct endpoint with data', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'John Doe',
         category: 'individual',
         urls: ['https://example.com']
@@ -46,7 +46,7 @@ describe('api service', () => {
     })
 
     it('returns blob data from response', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Acme Corp',
         category: 'organisation',
         urls: []
@@ -60,7 +60,7 @@ describe('api service', () => {
     })
 
     it('handles individual category', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Jane Smith',
         category: 'individual',
         urls: ['https://linkedin.com/in/jane']
@@ -80,7 +80,7 @@ describe('api service', () => {
     })
 
     it('handles organisation category', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Tech Company Inc',
         category: 'organisation',
         urls: ['https://company.com', 'https://about.company.com']
@@ -100,7 +100,7 @@ describe('api service', () => {
     })
 
     it('handles empty URLs array', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Test User',
         category: 'individual',
         urls: []
@@ -125,7 +125,7 @@ describe('api service', () => {
         'https://test.com',
         'https://company.org'
       ]
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Multi URL Test',
         category: 'individual',
         urls
@@ -145,7 +145,7 @@ describe('api service', () => {
     })
 
     it('throws error when axios request fails', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Test',
         category: 'individual',
         urls: []
@@ -158,7 +158,7 @@ describe('api service', () => {
     })
 
     it('uses correct request configuration', async () => {
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'Config Test',
         category: 'individual',
         urls: []
@@ -182,7 +182,7 @@ describe('api service', () => {
 
     it('constructs correct URL with different base URLs', async () => {
       const customApiBaseUrl = 'https://api.example.com'
-      const submitData: SubmitData = {
+      const submitData: DossierSubmitData = {
         name: 'URL Test',
         category: 'individual',
         urls: []
