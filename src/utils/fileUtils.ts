@@ -10,5 +10,5 @@ export const downloadFile = (blob: Blob, filename: string) => {
 };
 
 export const createFilename = (name: string, category: string): string => {
-  return `${name.replace(/\s+/g, '_')}_${category}_dossier.docx`;
+  return `${name.replace(/\s+/g, '_')}_${category}_dossier.zip`;
 };

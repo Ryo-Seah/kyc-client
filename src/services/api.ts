@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export interface SubmitData {
+export interface DossierData {
   name: string;
   category: 'individual' | 'organisation';
   urls: string[];
 }
 
-export const submitDossierRequest = async (apiBaseUrl: string, data: SubmitData): Promise<Blob> => {
+export const submitDossierRequest = async (apiBaseUrl: string, data: DossierData): Promise<Blob> => {
   const response = await axios.post(`${apiBaseUrl}/submit`, data, {
     responseType: 'blob',
     headers: {

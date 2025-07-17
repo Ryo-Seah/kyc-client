@@ -83,42 +83,42 @@ describe('fileUtils', () => {
   describe('createFilename', () => {
     it('creates filename with individual category', () => {
       const result = createFilename('John Doe', 'individual')
-      expect(result).toBe('John_Doe_individual_dossier.docx')
+      expect(result).toBe('John_Doe_individual_dossier.zip')
     })
 
     it('creates filename with organisation category', () => {
       const result = createFilename('Acme Corp', 'organisation')
-      expect(result).toBe('Acme_Corp_organisation_dossier.docx')
+      expect(result).toBe('Acme_Corp_organisation_dossier.zip')
     })
 
     it('replaces multiple spaces with single underscore', () => {
       const result = createFilename('John   Doe   Smith', 'individual')
-      expect(result).toBe('John_Doe_Smith_individual_dossier.docx')
+      expect(result).toBe('John_Doe_Smith_individual_dossier.zip')
     })
 
     it('handles single word names', () => {
       const result = createFilename('Apple', 'organisation')
-      expect(result).toBe('Apple_organisation_dossier.docx')
+      expect(result).toBe('Apple_organisation_dossier.zip')
     })
 
     it('handles names with special characters', () => {
       const result = createFilename('John & Jane Doe', 'individual')
-      expect(result).toBe('John_&_Jane_Doe_individual_dossier.docx')
+      expect(result).toBe('John_&_Jane_Doe_individual_dossier.zip')
     })
 
     it('handles empty string name', () => {
       const result = createFilename('', 'individual')
-      expect(result).toBe('_individual_dossier.docx')
+      expect(result).toBe('_individual_dossier.zip')
     })
 
     it('handles names with leading/trailing spaces', () => {
       const result = createFilename('  John Doe  ', 'individual')
-      expect(result).toBe('_John_Doe__individual_dossier.docx')
+      expect(result).toBe('_John_Doe__individual_dossier.zip')
     })
 
     it('preserves non-space characters', () => {
       const result = createFilename('Company-Name_LLC', 'organisation')
-      expect(result).toBe('Company-Name_LLC_organisation_dossier.docx')
+      expect(result).toBe('Company-Name_LLC_organisation_dossier.zip')
     })
   })
 })
