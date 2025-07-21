@@ -6,11 +6,13 @@ import {
   CategorySelector, 
   CustomUrlsManager, 
   SubmitButton, 
-  StatusMessage 
+  StatusMessage,
+  SignInUI
 } from './components';
 import { submitDossierRequest } from './services/api';
 import { downloadFile, createFilename } from './utils/fileUtils';
 import { handleApiError } from './utils/errorHandling';
+import type { User } from 'firebase/auth';
 
 function App() {
   const [name, setName] = useState('');
@@ -19,6 +21,7 @@ function App() {
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   // Get API base URL from environment variables
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
@@ -74,24 +77,34 @@ function App() {
     }
   };
 
+  // Only show SignInUI if not signed in
+  if (!user) {
+    return (
+      <Container maxWidth="sm" style={{ marginTop: 100 }}>
+        <SignInUI onSignIn={setUser} />
+      </Container>
+    );
+  }
+
+  // Show main app if signed in
   return (
     <Container maxWidth="sm" style={{ marginTop: 100 }}>
       <Typography variant="h4" gutterBottom>
         KYC Dossier Generator
       </Typography>
-      
+      <div style={{ marginBottom: 16 }}>
+        <span>Signed in as: {user.email}</span>
+      </div>
       <NameInput 
         value={name}
         onChange={setName}
         disabled={loading}
       />
-      
       <CategorySelector 
         value={category}
         onChange={setCategory}
         disabled={loading}
       />
-      
       <CustomUrlsManager 
         customUrls={customUrls}
         onAdd={addCustomUrl}
@@ -99,13 +112,11 @@ function App() {
         onUpdate={updateCustomUrl}
         disabled={loading}
       />
-      
       <SubmitButton 
         loading={loading}
         disabled={!name.trim()}
         onClick={handleSubmit}
       />
-      
       <StatusMessage 
         message={msg}
         isError={isError}
