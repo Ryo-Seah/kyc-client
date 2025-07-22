@@ -44,7 +44,7 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    if (!name.trim()) return;
+    if (!name.trim() || !user) return;
     setLoading(true);
     setIsError(false);
     setMsg('');
@@ -55,11 +55,14 @@ function App() {
     console.log("[DEBUG] Submitting name:", name, "category:", category, "customUrls:", validCustomUrls);
     
     try {
+      // Get Firebase ID token
+      const token = await user.getIdToken();
+      // Pass token to backend via submitDossierRequest
       const blob = await submitDossierRequest(API_BASE_URL, {
         name,
         category,
         urls: validCustomUrls
-      });
+      }, token); // <-- pass token as third argument
       
       // Create filename and download
       const filename = createFilename(name, category);

@@ -1,12 +1,31 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import App from '../App'
+import { useEffect } from 'react'
+
 
 
 // Mock the API service
 vi.mock('../services/api', () => ({
   submitDossierRequest: vi.fn()
 }))
+// Mock the sign-in UI component
+interface MockUser {
+  email: string;
+  getIdToken: () => Promise<string>;
+}
+interface SignInUIProps {
+  onSignIn: (user: MockUser) => void;
+}
+vi.mock('../components/SignInUI', () => ({
+  SignInUI: ({ onSignIn }: SignInUIProps) => {
+    // Immediately sign in with a mock user
+    useEffect(() => {
+      onSignIn({ email: 'test@example.com', getIdToken: async () => 'mock-token' });
+    }, [onSignIn]);
+    return null;
+  }
+}));
 
 // Get the mocked function
 import { submitDossierRequest } from '../services/api'
@@ -17,6 +36,8 @@ vi.mock('../utils/fileUtils', () => ({
   downloadFile: vi.fn(),
   createFilename: vi.fn((name: string, category: string) => `${name}_${category}_dossier.docx`)
 }))
+
+
 
 describe('App Integration', () => {
   beforeEach(() => {
@@ -98,7 +119,8 @@ describe('App Integration', () => {
           name: 'John Doe',
           category: 'organisation',
           urls: ['https://example.com']
-        }
+        },
+        'mock-token' // Mocked Firebase ID token
       )
     })
   })
@@ -199,7 +221,8 @@ describe('App Integration', () => {
         expect.any(String),
         expect.objectContaining({
           urls: ['https://example.com', 'https://test.com'] // Only non-empty URLs
-        })
+        }),
+        'mock-token' // Mocked Firebase ID token
       )
     })
   })

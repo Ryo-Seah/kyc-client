@@ -34,10 +34,13 @@ jobs:
       - name: Run linting
         run: npm run lint
 
+#this step is for testing the build before building the Docker image
       - name: Build application
         run: npm run build
         env:
           VITE_API_BASE_URL: ${{ secrets.BACKEND_URL }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+
         
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -61,6 +64,7 @@ jobs:
         run: |
           docker build \
             --build-arg VITE_API_BASE_URL="${{ secrets.BACKEND_URL }}" \
+            --build-arg VITE_GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
             -t $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:$GITHUB_SHA \
             -t $REGISTRY/$PROJECT_ID/$REPOSITORY/$SERVICE_NAME:latest \
             .

@@ -21,8 +21,9 @@ describe('api service', () => {
   describe('submitDossierRequest', () => {
     const apiBaseUrl = 'http://localhost:8080'
     const mockBlob = new Blob(['mock file content'], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
+    const mockToken = 'mock-firebase-id-token';
 
-    it('makes POST request to correct endpoint with data', async () => {
+    it('makes POST request to correct endpoint with data and token', async () => {
       const submitData: DossierSubmitData = {
         name: 'John Doe',
         category: 'individual',
@@ -31,7 +32,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         `${apiBaseUrl}/submit`,
@@ -39,7 +40,8 @@ describe('api service', () => {
         {
           responseType: 'blob',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${mockToken}`
           }
         }
       )
@@ -54,7 +56,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      const result = await submitDossierRequest(apiBaseUrl, submitData)
+      const result = await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(result).toBe(mockBlob)
     })
@@ -68,7 +70,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
@@ -88,7 +90,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
@@ -108,7 +110,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
@@ -133,7 +135,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
@@ -154,7 +156,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockRejectedValue(error)
 
-      await expect(submitDossierRequest(apiBaseUrl, submitData)).rejects.toThrow('Network error')
+      await expect(submitDossierRequest(apiBaseUrl, submitData, mockToken)).rejects.toThrow('Network error')
     })
 
     it('uses correct request configuration', async () => {
@@ -166,7 +168,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(apiBaseUrl, submitData)
+      await submitDossierRequest(apiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         expect.any(String),
@@ -174,8 +176,10 @@ describe('api service', () => {
         {
           responseType: 'blob',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${mockToken}`
           }
+          
         }
       )
     })
@@ -190,7 +194,7 @@ describe('api service', () => {
 
       mockedAxios.post.mockResolvedValue({ data: mockBlob })
 
-      await submitDossierRequest(customApiBaseUrl, submitData)
+      await submitDossierRequest(customApiBaseUrl, submitData, mockToken)
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
         `${customApiBaseUrl}/submit`,
