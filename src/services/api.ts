@@ -11,7 +11,9 @@ export const submitDossierRequest = async (
   data: DossierSubmitData,
   token: string // Firebase ID token
 ): Promise<Blob> => {
-  const response = await axios.post(`${apiBaseUrl}/submit`, data, {
+  // Remove trailing slash from apiBaseUrl if present
+  const baseUrl = apiBaseUrl.replace(/\/$/, '');
+  const response = await axios.post(`${baseUrl}/submit`, data, {
     responseType: 'blob',
     headers: {
       'Content-Type': 'application/json',
