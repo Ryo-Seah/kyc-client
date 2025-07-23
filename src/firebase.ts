@@ -3,13 +3,13 @@ import { getAuth, } from 'firebase/auth';
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDNddFXHMti2BqYSp606UBB_-6KxK2zf-o",
-  authDomain: "kyc-dvo-4a167.firebaseapp.com",
-  projectId: "kyc-dvo-4a167",
-  storageBucket: "kyc-dvo-4a167.firebasestorage.app",
-  messagingSenderId: "974355582942",
-  appId: "1:974355582942:web:d6784f66551fe3e6b7974f",
-  measurementId: "G-FV5H80LN0R"
+  apiKey: "AIzaSyBZjkBDG4bTotIIzKxOw28UKcNCZZbniQE",
+  authDomain: "kyc-dvo-465409.firebaseapp.com",
+  projectId: "kyc-dvo-465409",
+  storageBucket: "kyc-dvo-465409.firebasestorage.app",
+  messagingSenderId: "1095259062904",
+  appId: "1:1095259062904:web:ca5bc6c7faf3daec1ce38d",
+  measurementId: "G-J7N2SEG6GR"
 };
 
 const app = initializeApp(firebaseConfig);
