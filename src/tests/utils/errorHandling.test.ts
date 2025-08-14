@@ -16,7 +16,7 @@ describe('errorHandling', () => {
       
       const result = await handleApiError(error, apiBaseUrl)
       
-      expect(result).toBe('Server timeout: Backend did not respond in time.')
+      expect(result).toBe('Server timeout: Backend did not respond within 15 minutes. The request may have exceeded processing limits.')
       expect(console.error).toHaveBeenCalledWith('[ERROR] Request timed out.')
     })
 

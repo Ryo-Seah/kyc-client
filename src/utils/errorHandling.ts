@@ -14,7 +14,7 @@ export const handleApiError = async (error: unknown, apiBaseUrl: string): Promis
   
   if (apiError.code === 'ECONNABORTED') {
     console.error("[ERROR] Request timed out.");
-    return "Server timeout: Backend did not respond in time.";
+    return "Server timeout: Backend did not respond within 15 minutes. The request may have exceeded processing limits.";
   } 
   
   if (apiError.response) {

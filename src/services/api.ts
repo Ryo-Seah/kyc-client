@@ -15,6 +15,7 @@ export const submitDossierRequest = async (
   const baseUrl = apiBaseUrl.replace(/\/$/, '');
   const response = await axios.post(`${baseUrl}/submit`, data, {
     responseType: 'blob',
+    timeout: 900000, // 15 minutes in milliseconds (15 * 60 * 1000)
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}` // Pass token in Authorization header
