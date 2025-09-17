@@ -49,6 +49,10 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
             variant="determinate" 
             value={progressPercentage} 
             sx={{ height: 8, borderRadius: 4 }}
+            role="progressbar"
+            aria-valuenow={progressPercentage}
+            aria-valuemin={0}
+            aria-valuemax={100}
           />
         </Box>
 

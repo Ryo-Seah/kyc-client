@@ -7,7 +7,8 @@ import { useEffect } from 'react'
 
 // Mock the API service
 vi.mock('../services/api', () => ({
-  submitDossierRequest: vi.fn()
+  submitDossierAsync: vi.fn(),
+  downloadDossier: vi.fn()
 }))
 // Mock the sign-in UI component
 interface MockUser {
@@ -27,9 +28,10 @@ vi.mock('../components/SignInUI', () => ({
   }
 }));
 
-// Get the mocked function
-import { submitDossierRequest } from '../services/api'
-const mockedSubmitDossierRequest = vi.mocked(submitDossierRequest)
+// Get the mocked functions
+import { submitDossierAsync, downloadDossier } from '../services/api'
+const mockedSubmitDossierAsync = vi.mocked(submitDossierAsync)
+const mockedDownloadDossier = vi.mocked(downloadDossier)
 
 // Mock file download utilities
 vi.mock('../utils/fileUtils', () => ({
@@ -88,8 +90,12 @@ describe('App Integration', () => {
   })
 
   it('submits form with correct data', async () => {
-    const mockBlob = new Blob(['mock content'])
-    mockedSubmitDossierRequest.mockResolvedValue(mockBlob)
+    // Mock async submission response
+    mockedSubmitDossierAsync.mockResolvedValue({
+      job_id: 'test-job-123',
+      status: 'started',
+      message: 'Job started successfully'
+    })
     
     render(<App />)
     
@@ -113,7 +119,7 @@ describe('App Integration', () => {
     fireEvent.click(submitButton)
     
     await waitFor(() => {
-      expect(mockedSubmitDossierRequest).toHaveBeenCalledWith(
+      expect(mockedSubmitDossierAsync).toHaveBeenCalledWith(
         expect.any(String),
         {
           name: 'John Doe',
@@ -126,9 +132,13 @@ describe('App Integration', () => {
   })
 
   it('shows loading state during submission', async () => {
-    // Mock a delay in the API call
-    mockedSubmitDossierRequest.mockImplementation(() => 
-      new Promise(resolve => setTimeout(() => resolve(new Blob()), 100))
+    // Mock async submission response with delay
+    mockedSubmitDossierAsync.mockImplementation(() => 
+      new Promise(resolve => setTimeout(() => resolve({
+        job_id: 'test-job-123',
+        status: 'started',
+        message: 'Job started successfully'
+      }), 100))
     )
     
     render(<App />)
@@ -141,19 +151,27 @@ describe('App Integration', () => {
     const submitButton = screen.getByRole('button', { name: /generate & download dossier/i })
     fireEvent.click(submitButton)
     
-    // Check loading state
+    // Check loading state - should show loading spinner
     expect(screen.getByRole('progressbar')).toBeInTheDocument()
     expect(screen.queryByText(/generate & download dossier/i)).not.toBeInTheDocument()
     
     // Wait for completion
     await waitFor(() => {
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(submitButton).not.toBeDisabled()
     })
   })
 
   it('displays success message after successful submission', async () => {
+    // Mock async submission response
+    mockedSubmitDossierAsync.mockResolvedValue({
+      job_id: 'test-job-123',
+      status: 'started',
+      message: 'Job started successfully'
+    })
+    
+    // Mock download response
     const mockBlob = new Blob(['mock content'])
-    mockedSubmitDossierRequest.mockResolvedValue(mockBlob)
+    mockedDownloadDossier.mockResolvedValue(mockBlob)
     
     render(<App />)
     
@@ -164,13 +182,14 @@ describe('App Integration', () => {
     const submitButton = screen.getByRole('button', { name: /generate & download dossier/i })
     fireEvent.click(submitButton)
     
+    // Wait for progress to show
     await waitFor(() => {
-      expect(screen.getByText(/dossier for jane smith \(individual\) downloaded successfully!/i)).toBeInTheDocument()
+      expect(screen.getByText(/dossier generation started\.\.\./i)).toBeInTheDocument()
     })
   })
 
   it('displays error message when submission fails', async () => {
-    mockedSubmitDossierRequest.mockRejectedValue(new Error('Network error'))
+    mockedSubmitDossierAsync.mockRejectedValue(new Error('Network error'))
     
     render(<App />)
     
@@ -187,8 +206,12 @@ describe('App Integration', () => {
   })
 
   it('filters out empty URLs before submission', async () => {
-    const mockBlob = new Blob(['mock content'])
-    mockedSubmitDossierRequest.mockResolvedValue(mockBlob)
+    // Mock async submission response
+    mockedSubmitDossierAsync.mockResolvedValue({
+      job_id: 'test-job-123',
+      status: 'started',
+      message: 'Job started successfully'
+    })
     
     render(<App />)
     
@@ -217,7 +240,7 @@ describe('App Integration', () => {
     fireEvent.click(submitButton)
     
     await waitFor(() => {
-      expect(mockedSubmitDossierRequest).toHaveBeenCalledWith(
+      expect(mockedSubmitDossierAsync).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
           urls: ['https://example.com', 'https://test.com'] // Only non-empty URLs
@@ -228,9 +251,12 @@ describe('App Integration', () => {
   })
 
   it('disables all inputs during loading', async () => {
-    mockedSubmitDossierRequest.mockImplementation(() => 
-      new Promise(resolve => setTimeout(() => resolve(new Blob()), 100))
-    )
+    // Mock async submission response
+    mockedSubmitDossierAsync.mockResolvedValue({
+      job_id: 'test-job-123',
+      status: 'started',
+      message: 'Job started successfully'
+    })
     
     render(<App />)
     
@@ -251,9 +277,10 @@ describe('App Integration', () => {
     expect(screen.getByLabelText('Category')).toHaveAttribute('aria-disabled', 'true'); // Check aria-disabled
     expect(addButton).toBeDisabled()
     
-    // Wait for completion
+    // Wait for completion - submit button should be enabled again
+
     await waitFor(() => {
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(submitButton).not.toBeDisabled()
     })
   })
 })
