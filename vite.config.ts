@@ -7,12 +7,17 @@ export default defineConfig({
   server: {
     proxy: {
       '/submit': {
-        target: 'http://localhost:5050',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       },
       '/download': {
-        target: 'http://localhost:5050',
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/api/progress': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       }
