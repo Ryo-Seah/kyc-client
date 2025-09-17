@@ -48,7 +48,8 @@ describe('api service', () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${mockToken}`
-          }
+          },
+          validateStatus: expect.any(Function)
         }
       )
       expect(result).toEqual(mockResponse)
@@ -184,7 +185,8 @@ describe('api service', () => {
           responseType: 'blob',
           headers: {
             'Authorization': `Bearer ${mockToken}`
-          }
+          },
+          validateStatus: expect.any(Function)
         }
       )
       expect(result).toBe(mockBlob)
