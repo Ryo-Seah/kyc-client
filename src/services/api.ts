@@ -37,18 +37,14 @@ export const submitDossierAsync = async (
   const isDevelopment = import.meta.env.DEV;
   const baseUrl = isDevelopment ? '' : apiBaseUrl.replace(/\/$/, '');
   
-  try {
-    const response = await axios.post(`${baseUrl}/submit`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    return response.data;
-  } catch (error: any) {
-    throw error;
-  }
+  const response = await axios.post(`${baseUrl}/submit`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  
+  return response.data;
 };
 
 // Download completed dossier
@@ -60,17 +56,11 @@ export const downloadDossier = async (
   // Use relative URL in development to leverage Vite proxy
   const isDevelopment = import.meta.env.DEV;
   const baseUrl = isDevelopment ? '' : apiBaseUrl.replace(/\/$/, '');
-  
-  try {
-    const response = await axios.get(`${baseUrl}/download/${jobId}`, {
-      responseType: 'blob',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    return response.data;
-  } catch (error: any) {
-    throw error;
-  }
+  const response = await axios.get(`${baseUrl}/download/${jobId}`, {
+    responseType: 'blob',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response.data;
 };

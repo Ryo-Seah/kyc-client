@@ -30,6 +30,9 @@ jobs:
     
       - name: Run tests
         run: npm run test:run
+    
+      - name: Run linting
+        run: npm run lint
 
 #this step is for testing the build before building the Docker image
       - name: Build application
