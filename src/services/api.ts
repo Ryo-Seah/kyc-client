@@ -41,7 +41,8 @@ export const submitDossierAsync = async (
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
-    }
+    },
+    validateStatus: (status) => status < 400 // Only throw for 4xx/5xx errors
   });
   
   return response.data;
@@ -60,7 +61,8 @@ export const downloadDossier = async (
     responseType: 'blob',
     headers: {
       'Authorization': `Bearer ${token}`
-    }
+    },
+    validateStatus: (status) => status < 400 // Only throw for 4xx/5xx errors
   });
   return response.data;
 };
