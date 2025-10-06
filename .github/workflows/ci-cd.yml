@@ -5,11 +5,12 @@ on:
     branches: [master]
 
 env:
-  PROJECT_ID: kyc-dvo-465409
+  PROJECT_ID: kyc-dvo-465408
   SERVICE_NAME: kyc-client
   REGION: asia-southeast1
   REGISTRY: gcr.io
   REPOSITORY: kyc-client-repo
+
 
 jobs:
   build:
