@@ -3,7 +3,7 @@
 
 set -e  # Exit on any error
 
-PROJECT_ID="kyc-dvo-465409"
+PROJECT_ID="kyc-dvo-465408"
 SERVICE_ACCOUNT_NAME="github-actions"
 SERVICE_ACCOUNT_EMAIL="${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 KEY_FILE="github-actions-key.json"

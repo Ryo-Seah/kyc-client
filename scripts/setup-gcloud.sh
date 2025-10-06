@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🔧 Setting up Google Cloud CLI for project: kyc-dvo-465409"
+echo "🔧 Setting up Google Cloud CLI for project: kyc-dvo-465408"
 
 # Check if gcloud is installed
 if ! command -v gcloud &> /dev/null; then
@@ -19,7 +19,7 @@ gcloud auth login
 
 # Set the project
 echo "📁 Setting project to kyc-dvo..."
-gcloud config set project kyc-dvo-465409
+gcloud config set project kyc-dvo-465408
 
 # Set the region for Cloud Run
 echo "🌏 Setting region to asia-southeast1..."
